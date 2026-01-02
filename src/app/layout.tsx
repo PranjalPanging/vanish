@@ -15,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main className="h-screen">{children}</main>
-        <Footer />
+        <div className="bg-black antialiased selection:bg-blue-500/30">
+          <Navbar />
+          <main className="flex flex-col items-center">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
