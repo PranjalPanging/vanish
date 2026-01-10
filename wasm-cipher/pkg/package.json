@@ -1,0 +1,15 @@
+{
+  "name": "wasm-cipher",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "wasm_cipher_bg.wasm",
+    "wasm_cipher.js",
+    "wasm_cipher.d.ts"
+  ],
+  "main": "wasm_cipher.js",
+  "types": "wasm_cipher.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
