@@ -17,14 +17,52 @@ export function FileVault({ onUploadComplete }: FileVaultProps) {
     if (droppedFile) setFile(droppedFile);
   }, []);
 
+
   const handleEncrypt = async () => {
+    if (!file) return;
     setIsEncrypting(true);
 
-    setTimeout(() => {
+    try {
+      const wasm = await import("../../wasm-cipher/pkg");      await wasm.default();
+
+      const fileBuffer = await file.arrayBuffer();
+      const fileData = new Uint8Array(fileBuffer);
+      const result = wasm.encrypt_file(fileData);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: result.ciphertext,
+        headers: {
+          "x-file-name": file.name,
+        },
+      });
+
+if (!response.ok) {
+  const errorText = await response.text();
+  console.error("Server responded with:", errorText);
+  throw new Error("Upload failed");
+}
+      const blobData = await response.json();
+
+      const toHex = (bytes: Uint8Array) =>
+        Array.from(bytes)
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      const keyHex = toHex(result.key);
+      const nonceHex = toHex(result.nonce);
+
+      const secureUrl = `${window.location.origin}/v/${blobData.id}#${keyHex}${nonceHex}`;
+
+      onUploadComplete(secureUrl);
+    } catch (err) {
+      console.error("Vault Error:", err);
+      alert("Encryption or Upload failed. Check console.");
+    } finally {
       setIsEncrypting(false);
-      onUploadComplete("https://vanish.sh/download/sample-id#key-123");
-    }, 2000);
+    }
   };
+
+
 
   return (
     <div className="w-full max-w-2xl mx-auto group">

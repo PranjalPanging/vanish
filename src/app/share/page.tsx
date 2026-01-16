@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { FileVault } from "@/components/FileVault";
 import ShareResult from "@/components/ShareResult";
 import { Terminal, ShieldAlert } from "lucide-react";
 
 export default function SharePage() {
+  const [mounted, setMounted] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="relative min-h-screen w-full bg-black text-white selection:bg-blue-500/30 overflow-x-hidden pt-32 pb-20">

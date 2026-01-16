@@ -37,3 +37,9 @@ export function initSync(module: { module: SyncInitInput } | SyncInitInput): Ini
 * @returns {Promise<InitOutput>}
 */
 export default function __wbg_init (module_or_path?: { module_or_path: InitInput | Promise<InitInput> } | InitInput | Promise<InitInput>): Promise<InitOutput>;
+
+declare module "@/wasm-cipher/pkg/wasm_cipher" {
+  export function encrypt_file(data: Uint8Array): any;
+  export function decrypt_file(ciphertext: Uint8Array, key: Uint8Array, nonce: Uint8Array): Uint8Array;
+  export default function init(): Promise<void>;
+}
