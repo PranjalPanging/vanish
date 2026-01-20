@@ -144,8 +144,6 @@ export function FileVault({ onUploadComplete }: FileVaultProps) {
                     <X size={18} />
                   </button>
                 </div>
-
-                {/* Technical Specs Rows */}
                 <div className="grid grid-cols-2 gap-3 pb-2">
                   <div className="p-3 bg-white/2 border border-white/5 rounded-lg flex items-center gap-3">
                     <ShieldCheck size={14} className="text-zinc-500" />
@@ -160,8 +158,6 @@ export function FileVault({ onUploadComplete }: FileVaultProps) {
                     </span>
                   </div>
                 </div>
-
-                {/* Primary Action Button */}
                 <button
                   onClick={handleEncrypt}
                   disabled={isEncrypting}
